@@ -7,7 +7,7 @@ last_name="Melacarne"
 exercise_number=$1
 exercise_name=$2
 
-exercise_dir_name=""$exercise_number"_"$exercise_name""
+exercise_dir_name="${exercise_number}_${exercise_name}_${last_name}"
 
 # create directory
 mkdir -p ./assignments/"$exercise_dir_name"/
