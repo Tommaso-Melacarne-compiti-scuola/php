@@ -11,13 +11,10 @@
         <h1 class="text-center mb-4">School Grade Calculator</h1>
 
         <?php
-        // Include the functions
         include "functions.php";
 
-        // Example grades array
         $grades = [7, 5, 6, 8, 9];
 
-        // Calculate the average
         $gradeAverage = average($grades);
         ?>
 
