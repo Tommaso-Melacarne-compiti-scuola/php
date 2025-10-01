@@ -1,0 +1,1 @@
+document.getElementById("reload-btn").addEventListener('click', () => window.location.reload())
