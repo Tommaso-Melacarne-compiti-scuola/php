@@ -1,0 +1,62 @@
+services:
+  db:
+    image: mariadb:latest
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: root_db
+      MARIADB_USER: user
+      MARIADB_PASSWORD: user
+      TZ: Europe/Rome
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    volumes:
+      - "./mariadb_data:/var/lib/mysql"
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      PMA_USER: root
+      PMA_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8080:80"
+    expose:
+      - "8080"
+
+  php-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - db
+      - phpmyadmin
+    ports:
+      - "3000:80"
+    expose:
+      - "3000"
+    develop:
+      watch:
+        # Sync PHP source files for live reloading
+        - action: sync
+          path: ./src
+          target: /var/www/html
+          ignore:
+            - "*.tmp"
+            - "*.log"
+            - ".DS_Store"
+        # Rebuild container when Dockerfile changes
+        - action: rebuild
+          path: ./Dockerfile
+        # Rebuild container when composer files change (if using Composer)
+        - action: rebuild
+          path: ./composer.json
+        - action: rebuild
+          path: ./composer.lock
