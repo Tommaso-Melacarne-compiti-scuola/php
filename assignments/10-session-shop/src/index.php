@@ -27,10 +27,12 @@ $allProducts = [
 // is a cart if query param "cart" is set to 1
 $isCart = isset($_GET['cart']) && $_GET['cart'] == '1';
 
-$cart_ids = $_SESSION['cart'] ?? [];
+$cart_ids_qty = $_SESSION['cart'] ?? [];
 
-$cartProducts = array_filter($allProducts, fn($product) =>
-    in_array($product['id'], $cart_ids)
+$cart_ids = array_keys($cart_ids_qty);
+$cartProducts = array_filter(
+    $allProducts,
+    fn($product) => in_array($product['id'], $cart_ids),
 );
 
 $products = $isCart ? $cartProducts : $allProducts;
@@ -69,10 +71,25 @@ $products = $isCart ? $cartProducts : $allProducts;
                                 <?= number_format($product["price"], 2) ?> €
                             </p>
                             <?php if ($isCart): ?>
-                                <form method="POST" action="remove_from_cart.php" class="mt-auto">
-                                    <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
-                                    <button type="submit" class="btn btn-danger w-100">Remove</button>
-                                </form>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <form method="POST" action="decrease_from_cart.php">
+                                                <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                                                <button class="btn btn-outline-secondary form-control" type="submit">-</button>
+                                            </form>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" disabled class="text-center form-control" value="<?=  $cart_ids_qty[$product['id']] ?> ">
+                                        </div>
+                                        <div class="col">
+                                            <form method="POST" action="add_to_cart.php">
+                                                <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                                                <button class="btn btn-outline-secondary form-control" type="submit">+</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             <?php else: ?>
                                 <form method="POST" action="add_to_cart.php" class="mt-auto">
                                     <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
@@ -86,7 +103,6 @@ $products = $isCart ? $cartProducts : $allProducts;
         </div>
     </div>
 
-    <!--total -->
     <?php if ($isCart && count($cartProducts) > 0): ?>
         <div class="container">
             <div class="row">
