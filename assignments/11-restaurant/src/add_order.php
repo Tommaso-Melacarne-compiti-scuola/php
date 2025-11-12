@@ -35,6 +35,7 @@ if (!validate_input($table, $plate)) {
 }
 
 $_SESSION["orders"][] = [
+    "uid" => uniqid(),
     "table" => (int) $table,
     "plate" => (int) $plate,
 ];

@@ -15,13 +15,15 @@ $orders_by_table = [];
 if (isset($_SESSION["orders"])) {
     foreach ($_SESSION["orders"] as $order) {
         $table = $order["table"];
-        $plate = $order["plate"];
 
         if (!isset($orders_by_table[$table])) {
             $orders_by_table[$table] = [];
         }
 
-        $orders_by_table[$table][] = $plate;
+        $orders_by_table[$table][] = [
+            "uid" => $order["uid"],
+            "plate" => $order["plate"],
+        ];
     }
 }
 
@@ -34,6 +36,7 @@ ksort($orders_by_table);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <title>Home</title>
 <body data-bs-theme="dark">
     <a href="/logout.php" class="btn btn-danger ms-3 mt-3">Logout</a>
@@ -82,7 +85,7 @@ ksort($orders_by_table);
 
     <div class="container mt-5">
         <div class="row row-cols-1 row-cols-md-3 g-4">
-            <?php foreach ($orders_by_table as $table => $plates): ?>
+            <?php foreach ($orders_by_table as $table => $orders): ?>
                 <div class="col">
                     <div class="card h-100">
                         <div class="card-header">
@@ -91,18 +94,28 @@ ksort($orders_by_table);
                         <ul class="list-group list-group-flush">
                             <?php
                             $total = 0;
-                            foreach ($plates as $plate_id):
+                            foreach ($orders as $plates):
 
-                                $product = products[$plate_id];
+                                $product = products[$plates["plate"]];
                                 $total += $product["price"];
                                 ?>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <?= $product["name"] ?>
-                                    <span class="badge bg-secondary rounded-pill">
-                                        €<?= number_format(
-                                            $product["price"],
-                                            2,
-                                        ) ?>
+                                    <span class="d-flex align-items-center">
+                                        <span class="badge bg-secondary rounded-pill">
+                                            €<?= number_format(
+                                                $product["price"],
+                                                2,
+                                            ) ?>
+                                        </span>
+                                        <form method="POST" action="/delete_order.php" class="ms-2">
+                                            <input type="hidden" name="uid" value="<?= $plates[
+                                                "uid"
+                                            ] ?>">
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
                                     </span>
                                 </li>
                             <?php
