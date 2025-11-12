@@ -71,22 +71,22 @@ $products = $isCart ? $cartProducts : $allProducts;
                                 <?= number_format($product["price"], 2) ?> €
                             </p>
                             <?php if ($isCart): ?>
-                            <form method="POST" action="add_to_cart.php">
-                                <input type="hidden" name="product_id" value="<?= $product[
-                                    "id"
-                                ] ?>">
-                                <div class="input-group">
-                                    <button class="btn btn-outline-secondary form-control" type="submit" formaction="decrease_from_cart.php">
-                                        -
-                                    </button>
-                                    <input type="text" disabled class="text-center form-control" value="<?= $cart_ids_qty[
-                                        $product["id"]
-                                    ] ?> ">
-                                    <button class="btn btn-outline-secondary form-control" type="submit" formaction="add_to_cart.php">
-                                        +
-                                    </button>
-                                </div>
-                            </form>
+                                <form method="POST" action="add_to_cart.php">
+                                    <input type="hidden" name="product_id" value="<?= $product[
+                                        "id"
+                                    ] ?>">
+                                    <div class="input-group">
+                                        <button class="btn btn-outline-secondary form-control" type="submit" formaction="decrease_from_cart.php">
+                                            -
+                                        </button>
+                                        <input type="text" disabled class="text-center form-control" value="<?= $cart_ids_qty[
+                                            $product["id"]
+                                        ] ?> ">
+                                        <button class="btn btn-outline-secondary form-control" type="submit" formaction="add_to_cart.php">
+                                            +
+                                        </button>
+                                    </div>
+                                </form>
                             <?php else: ?>
                                 <form method="POST" action="add_to_cart.php" class="mt-auto">
                                     <input type="hidden" name="product_id" value="<?= $product[
