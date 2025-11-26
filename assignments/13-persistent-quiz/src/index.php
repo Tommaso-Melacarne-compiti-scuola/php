@@ -17,7 +17,7 @@ session_start(); ?>
     <?php endif; ?>
 </head>
 <body data-bs-theme="dark">
-    <h1 class="text-center mt-3 mb-5">Persistent Quiz</h1>
+    <h1 class="text-center mt-3 mb-5">Quiz</h1>
 
     <div class="d-flex w-100 justify-content-center mx-auto" style="max-width: 500px;">
         <?php if (isset($_SESSION["quiz_end"])): ?>
@@ -44,7 +44,7 @@ session_start(); ?>
                 $current_question = quiz_data[$current_question_index];
                 ?>
 
-                <form action="process_answer.php" method="post">
+                <form method="post">
                     <fieldset>
                         <legend>Question <?= $current_question_index +
                             1 ?>:</legend>
@@ -56,14 +56,30 @@ session_start(); ?>
                             as $index => $option
                         ): ?>
                             <div class="form-check">
-                                <input type="radio" class="form-check-input" id="option<?= $index ?>" name="answer" value="<?= $index ?>" required>
+                                <?php $isChecked =
+                                    isset(
+                                        $_SESSION["answers"][
+                                            (string) $current_question_index
+                                        ],
+                                    ) &&
+                                    $_SESSION["answers"][
+                                        (string) $current_question_index
+                                    ] === $index; ?>
+                                <input type="radio" class="form-check-input" id="option<?= $index ?>" name="answer" value="<?= $index ?>" required
+                                    <?= $isChecked ? "checked" : "" ?>
+                                >
                                 <label class="form-check-radio" for="option<?= $index ?>">
                                     <?= htmlspecialchars($option) ?>
                                 </label>
                             </div>
                         <?php endforeach; ?>
                     </fieldset>
-                    <button type="submit" class="btn btn-primary mt-3">Submit Answer</button>
+                    <?php if ($_SESSION["current_question"] > 0): ?>
+                        <a class="btn btn-secondary mt-3 me-2" href="go_back.php">
+                            Go Back
+                        </a>
+                    <?php endif; ?>
+                    <button type="submit" class="btn btn-primary mt-3" formaction="process_answer.php">Submit Answer</button>
                 </form>
             </div>
         <?php endif; ?>

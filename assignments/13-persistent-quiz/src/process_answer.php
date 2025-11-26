@@ -7,6 +7,7 @@ if (!isset($_SESSION["current_question"]) || isset($_SESSION["quiz_end"])) {
     $_SESSION["quiz_end"] = null;
     $_SESSION["current_question"] = 0;
     $_SESSION["score"] = 0;
+    $_SESSION["answers"] = [];
     header("Location: index.php");
     exit();
 }
@@ -14,6 +15,7 @@ $current_question_index = $_SESSION["current_question"];
 $current_question = quiz_data[$current_question_index];
 if (isset($_POST["answer"])) {
     $selected_answer = (int) $_POST["answer"];
+    $_SESSION["answers"][(string) $current_question_index] = $selected_answer;
     if ($selected_answer === $current_question["answer"]) {
         $_SESSION["score"]++;
     }
