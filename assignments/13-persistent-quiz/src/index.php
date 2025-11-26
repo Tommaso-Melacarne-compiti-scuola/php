@@ -44,7 +44,7 @@ session_start(); ?>
                 $current_question = quiz_data[$current_question_index];
                 ?>
 
-                <form method="post">
+                <form method="post" action="process_answer.php">
                     <fieldset>
                         <legend>Question <?= $current_question_index +
                             1 ?>:</legend>
@@ -74,12 +74,14 @@ session_start(); ?>
                             </div>
                         <?php endforeach; ?>
                     </fieldset>
-                    <?php if ($_SESSION["current_question"] > 0): ?>
-                        <a class="btn btn-secondary mt-3 me-2" href="go_back.php">
-                            Go Back
-                        </a>
-                    <?php endif; ?>
-                    <button type="submit" class="btn btn-primary mt-3" formaction="process_answer.php">Submit Answer</button>
+                    <div class="d-flex justify-content-between mt-4">
+                        <?php if ($_SESSION["current_question"] > 0): ?>
+                            <a class="btn btn-secondary me-2 w-100" href="go_back.php">
+                                Go Back
+                            </a>
+                        <?php endif; ?>
+                        <button type="submit" class="btn btn-primary w-100">Submit Answer</button>
+                    </div>
                 </form>
             </div>
         <?php endif; ?>
