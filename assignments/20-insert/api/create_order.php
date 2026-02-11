@@ -1,8 +1,8 @@
 <?php
-include_once 'lib/connection.php';
+include_once __DIR__ . '/../lib/connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header("Location: index.php");
+    header("Location: ../index.php");
     exit;
 }
 
@@ -14,7 +14,7 @@ $requiredDate = isset($_POST['requiredDate']) ? trim($_POST['requiredDate']) : '
 $comments = isset($_POST['comments']) ? trim($_POST['comments']) : '';
 
 if ($customerInput === '' || $productInput === '' || $quantity <= 0 || $orderDate === '' || $requiredDate === '') {
-    header("Location: index.php?order=error&message=" . urlencode("Compila tutti i campi obbligatori."));
+    header("Location: ../index.php?order=error&message=" . urlencode("Compila tutti i campi obbligatori."));
     exit;
 }
 
@@ -25,7 +25,7 @@ $productParts = explode(' - ', $productInput, 2);
 $productCode = trim($productParts[0]);
 
 if ($customerNumber <= 0 || $productCode === '') {
-    header("Location: index.php?order=error&message=" . urlencode("Cliente o prodotto non valido."));
+    header("Location: ../index.php?order=error&message=" . urlencode("Cliente o prodotto non valido."));
     exit;
 }
 
@@ -36,7 +36,7 @@ $productResult = $productStmt->get_result();
 
 if ($productResult->num_rows === 0) {
     $productStmt->close();
-    header("Location: index.php?order=error&message=" . urlencode("Prodotto non trovato."));
+    header("Location: ../index.php?order=error&message=" . urlencode("Prodotto non trovato."));
     exit;
 }
 
@@ -52,7 +52,7 @@ $customerResult = $customerStmt->get_result();
 
 if ($customerResult->num_rows === 0) {
     $customerStmt->close();
-    header("Location: index.php?order=error&message=" . urlencode("Cliente non trovato."));
+    header("Location: ../index.php?order=error&message=" . urlencode("Cliente non trovato."));
     exit;
 }
 
@@ -83,10 +83,10 @@ try {
 
     $conn->commit();
 
-    header("Location: index.php?order=success&orderNumber=" . urlencode((string) $orderNumber));
+    header("Location: ../index.php?order=success&orderNumber=" . urlencode((string) $orderNumber));
     exit;
 } catch (Exception $e) {
     $conn->rollback();
-    header("Location: index.php?order=error&message=" . urlencode("Errore durante la creazione dell'ordine."));
+    header("Location: ../index.php?order=error&message=" . urlencode("Errore durante la creazione dell'ordine."));
     exit;
 }
