@@ -1,74 +1,22 @@
 <?php
-include_once 'connection.php';
+include_once 'lib/connection.php';
 
-$customersSql = "SELECT
-    customerNumber,
-    customerName, 
-    contactLastName,
-    contactFirstName,
-    phone,
-    addressLine1,
-    addressLine2,
-    city,
-    `state`,
-    postalCode,
-    country
-    FROM 
-    customers
-    ORDER BY
-    customerNumber ASC";
+include_once 'db/customers.php';
 
-$customersResult = $conn->query($customersSql);
+$customers = getCustomers();
 
-if ($customersResult->num_rows == 0) {
+if (empty($customers)) {
     echo "Nessun risultato trovato.";
     die();
 }
 
-$customers = [];
-while ($row = $customersResult->fetch_assoc()) {
-    $customers[] = $row;
-}
+include_once 'db/products.php';
 
-$productsSql = "SELECT
-    productCode,
-    productName
-    FROM
-    products
-    ORDER BY
-    productName ASC";
+$products = getProducts();
 
-$productsResult = $conn->query($productsSql);
-$products = [];
+include_once 'db/orders.php';
 
-if ($productsResult && $productsResult->num_rows > 0) {
-    while ($row = $productsResult->fetch_assoc()) {
-        $products[] = $row;
-    }
-}
-
-$ordersSql = "SELECT
-    o.orderNumber,
-    o.orderDate,
-    o.requiredDate,
-    o.shippedDate,
-    o.status,
-    o.customerNumber,
-    c.customerName
-    FROM
-    orders o
-    LEFT JOIN customers c ON c.customerNumber = o.customerNumber
-    ORDER BY
-    o.orderDate DESC";
-
-$ordersResult = $conn->query($ordersSql);
-$orders = [];
-
-if ($ordersResult && $ordersResult->num_rows > 0) {
-    while ($row = $ordersResult->fetch_assoc()) {
-        $orders[] = $row;
-    }
-}
+$orders = getOrders();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -97,7 +45,7 @@ if ($ordersResult && $ordersResult->num_rows > 0) {
     <div class="container mb-5">
         <div class="card shadow-sm border-0">
             <div class="card-body">
-                <form class="row g-3" method="post" action="create_order.php">
+                <form class="row g-3" method="post" action="api/create_order.php">
                     <div class="col-md-6">
                         <label for="customerInput" class="form-label">Cliente</label>
                         <input type="text" class="form-control" id="customerInput" name="customer" list="customerList"

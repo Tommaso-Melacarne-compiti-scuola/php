@@ -1,33 +1,13 @@
 <?php
-include_once 'connection.php';
+include_once 'lib/connection.php';
 
-$customersSql = "SELECT
-    customerNumber,
-    customerName, 
-    contactLastName,
-    contactFirstName,
-    phone,
-    addressLine1,
-    addressLine2,
-    city,
-    `state`,
-    postalCode,
-    country
-    FROM 
-    customers
-    ORDER BY
-    customerNumber ASC";
+include_once 'db/customers.php';
 
-$customersResult = $conn->query($customersSql);
+$customers = getCustomers();
 
-if ($customersResult->num_rows == 0) {
+if (empty($customers)) {
     echo "Nessun risultato trovato.";
     die();
-}
-
-$customers = [];
-while ($row = $customersResult->fetch_assoc()) {
-    $customers[] = $row;
 }
 ?>
 <!DOCTYPE html>

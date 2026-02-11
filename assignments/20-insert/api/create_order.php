@@ -1,5 +1,5 @@
 <?php
-include_once 'connection.php';
+include_once 'lib/connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: index.php");
