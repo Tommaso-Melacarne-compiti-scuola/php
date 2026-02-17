@@ -101,11 +101,11 @@ $orders = getOrders();
     <table class="table table-striped w-75 mx-auto">
         <tr class="text-center">
             <th>Order Number</th>
+            <th>Customer</th>
             <th>Order Date</th>
             <th>Required Date</th>
             <th>Shipped Date</th>
             <th>Status</th>
-            <th>Customer</th>
         </tr>
         <?php
         if (count($orders) == 0) {
@@ -113,13 +113,17 @@ $orders = getOrders();
         }
 
         foreach ($orders as $row) {
+            $customerNumber = (int) $row['customerNumber'];
+            $customerLabel = htmlspecialchars($row['customerNumber'] . " - " . $row['customerName']);
+            $customerLink = "view_customer.php?customerNumber=" . $customerNumber;
+
             echo "<tr>";
             echo "<td>" . $row['orderNumber'] . "</td>";
+            echo "<td><a class=\"link-light link-offset-1\" href=\"" . $customerLink . "\">" . $customerLabel . "</a></td>";
             echo "<td>" . $row['orderDate'] . "</td>";
             echo "<td>" . $row['requiredDate'] . "</td>";
             echo "<td>" . ($row['shippedDate'] ?? '-') . "</td>";
             echo "<td>" . $row['status'] . "</td>";
-            echo "<td>" . $row['customerNumber'] . " - " . $row['customerName'] . "</td>";
             echo "</tr>";
         }
         ?>

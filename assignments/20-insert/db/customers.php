@@ -29,4 +29,37 @@ function getCustomers() {
 
     return $customers;
 }
+
+function getCustomerByNumber($customerNumber) {
+    global $conn;
+    $customerSql = "SELECT
+        customerNumber,
+        customerName,
+        contactLastName,
+        contactFirstName,
+        phone,
+        addressLine1,
+        addressLine2,
+        city,
+        `state`,
+        postalCode,
+        country
+        FROM
+        customers
+        WHERE
+        customerNumber = ?";
+
+    $stmt = $conn->prepare($customerSql);
+    if (!$stmt) {
+        return null;
+    }
+
+    $stmt->bind_param('i', $customerNumber);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $customer = $result ? $result->fetch_assoc() : null;
+    $stmt->close();
+
+    return $customer ?: null;
+}
 ?>
