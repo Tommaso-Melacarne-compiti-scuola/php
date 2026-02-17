@@ -1,7 +1,7 @@
 <?php
-include_once 'lib/connection.php';
+include_once 'db/connection.php';
 
-include_once 'db/customers.php';
+include_once 'model/customers.php';
 
 $customers = getCustomers();
 

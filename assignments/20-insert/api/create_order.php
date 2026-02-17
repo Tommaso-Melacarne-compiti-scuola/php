@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/../lib/connection.php';
+include_once __DIR__ . '/../db/connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: ../index.php");

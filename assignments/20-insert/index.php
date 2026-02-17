@@ -1,7 +1,7 @@
 <?php
-include_once 'lib/connection.php';
+include_once 'db/connection.php';
 
-include_once 'db/customers.php';
+include_once 'model/customers.php';
 
 $customers = getCustomers();
 
@@ -10,11 +10,11 @@ if (empty($customers)) {
     die();
 }
 
-include_once 'db/products.php';
+include_once 'model/products.php';
 
 $products = getProducts();
 
-include_once 'db/orders.php';
+include_once 'model/orders.php';
 
 $orders = getOrders();
 ?>

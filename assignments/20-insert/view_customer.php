@@ -1,8 +1,8 @@
 <?php
-include_once 'lib/connection.php';
+include_once 'db/connection.php';
 
-include_once 'db/customers.php';
-include_once 'db/orders.php';
+include_once 'model/customers.php';
+include_once 'model/orders.php';
 
 $customerNumberParam = $_GET['customerNumber'] ?? '';
 $customerNumber = filter_var($customerNumberParam, FILTER_VALIDATE_INT);
