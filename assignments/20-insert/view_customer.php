@@ -13,6 +13,10 @@ if ($customerNumber === false) {
 
 $customer = $customerNumber ? getCustomerByNumber($customerNumber) : null;
 $orders = $customer ? getOrdersByCustomer($customerNumber) : [];
+
+$backParam = isset($_GET['back']) ? trim($_GET['back']) : '';
+$allowedBackTargets = ['index.php', 'customers.php'];
+$backUrl = in_array($backParam, $allowedBackTargets, true) ? $backParam : 'index.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +35,7 @@ $orders = $customer ? getOrdersByCustomer($customerNumber) : [];
         <div class="row align-items-center my-4">
             <div class="col-2">
                 <a class="btn btn-outline-light d-inline-flex align-items-center justify-content-center"
-                    style="width: 40px; height: 40px;" href="index.php" aria-label="Torna indietro">
+                    style="width: 40px; height: 40px;" href="<?php echo htmlspecialchars($backUrl); ?>" aria-label="Torna indietro">
                     <i class="bi bi-arrow-left"></i>
                 </a>
             </div>

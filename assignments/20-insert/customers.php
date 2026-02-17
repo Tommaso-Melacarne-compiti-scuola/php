@@ -53,9 +53,15 @@ if (empty($customers)) {
         </tr>
         <?php
         foreach ($customers as $row) {
+            $customerNumber = (int) $row['customerNumber'];
+            $ordersLink = 'view_customer.php?' . http_build_query([
+                'customerNumber' => $customerNumber,
+                'back' => 'customers.php'
+            ]);
+
             echo "<tr>";
-            echo "<td>" . $row['customerNumber'] . "</td>";
-            echo "<td>" . $row['customerName'] . "</td>";
+            echo "<td>" . $customerNumber . "</td>";
+            echo "<td><a class=\"link-light link-offset-1\" href=\"" . htmlspecialchars($ordersLink) . "\">" . $row['customerName'] . "</a></td>";
             echo "<td>" . $row['contactLastName'] . "</td>";
             echo "<td>" . $row['contactFirstName'] . "</td>";
             echo "<td>" . $row['phone'] . "</td>";
