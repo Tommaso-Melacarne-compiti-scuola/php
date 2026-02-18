@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/auth/require_login.php';
+
 include_once 'db/connection.php';
 
 include_once 'model/customers.php';
@@ -26,10 +28,17 @@ $orders = getOrders();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <title>Nuovo Ordine</title>
+    <title>Lista Ordini</title>
 </head>
 
 <body data-bs-theme="dark">
+    <?php $authUser = current_user(); ?>
+    <div class="container my-3">
+        <div class="d-flex justify-content-end align-items-center gap-2">
+            <span class="text-muted small">Logged in as <b><?php echo htmlspecialchars($authUser['email'] ?? ''); ?></b></span>
+            <a class="btn btn-outline-danger btn-sm" href="auth/logout.php">Logout</a>
+        </div>
+    </div>
     <h1 class="text-center my-4">Nuovo Ordine</h1>
     <?php
     if (isset($_GET['order']) && $_GET['order'] === 'success') {
