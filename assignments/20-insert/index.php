@@ -32,13 +32,7 @@ $orders = getOrders();
 </head>
 
 <body data-bs-theme="dark">
-    <?php $authUser = current_user(); ?>
-    <div class="container my-3">
-        <div class="d-flex justify-content-end align-items-center gap-2">
-            <span class="text-muted small">Logged in as <b><?php echo htmlspecialchars($authUser['email'] ?? ''); ?></b></span>
-            <a class="btn btn-outline-danger btn-sm" href="auth/logout.php">Logout</a>
-        </div>
-    </div>
+    <?php include_once __DIR__ . '/components/navbar.php'; ?>
     <h1 class="text-center my-4">Nuovo Ordine</h1>
     <?php
     if (isset($_GET['order']) && $_GET['order'] === 'success') {
@@ -98,7 +92,6 @@ $orders = getOrders();
                             placeholder="Inserisci eventuali note"></textarea>
                     </div>
                     <div class="col-12 d-flex justify-content-end gap-2">
-                        <a class="btn btn-outline-light" href="customers.php">Lista clienti</a>
                         <button type="submit" class="btn btn-primary">Aggiungi ordine</button>
                     </div>
                 </form>
@@ -106,7 +99,7 @@ $orders = getOrders();
         </div>
     </div>
 
-    <h2 class="text-center my-4">Lista ordini</h2>
+    <h1 class="text-center my-4">Lista ordini</h2>
     <table class="table table-striped w-75 mx-auto">
         <tr class="text-center">
             <th>Order Number</th>

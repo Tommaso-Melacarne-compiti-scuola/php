@@ -33,13 +33,7 @@ $backUrl = in_array($backParam, $allowedBackTargets, true) ? $backParam : 'index
 </head>
 
 <body data-bs-theme="dark">
-    <?php $authUser = current_user(); ?>
-    <div class="container my-3">
-        <div class="d-flex justify-content-end align-items-center gap-2">
-            <span class="text-muted small">Logged in as <b><?php echo htmlspecialchars($authUser['email'] ?? ''); ?></b></span>
-            <a class="btn btn-outline-danger btn-sm" href="auth/logout.php">Logout</a>
-        </div>
-    </div>
+    <?php include_once __DIR__ . '/components/navbar.php'; ?>
     <div class="container">
         <div class="row align-items-center my-4">
             <div class="col-2">

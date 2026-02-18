@@ -25,26 +25,9 @@ if (empty($customers)) {
 </head>
 
 <body data-bs-theme="dark">
-    <?php $authUser = current_user(); ?>
-    <div class="container my-3">
-        <div class="d-flex justify-content-end align-items-center gap-2">
-            <span class="text-muted small">Logged in as <b><?php echo htmlspecialchars($authUser['email'] ?? ''); ?></b></span>
-            <a class="btn btn-outline-danger btn-sm" href="auth/logout.php">Logout</a>
-        </div>
-    </div>
+    <?php include_once __DIR__ . '/components/navbar.php'; ?>
     <div class="container">
-        <div class="row align-items-center my-4">
-            <div class="col-2">
-                <a class="btn btn-outline-light d-inline-flex align-items-center justify-content-center"
-                    style="width: 40px; height: 40px;" href="index.php" aria-label="Torna indietro">
-                    <i class="bi bi-arrow-left"></i>
-                </a>
-            </div>
-            <div class="col-8 text-center">
-                <h1 class="m-0">Lista dei Clienti</h1>
-            </div>
-            <div class="col-2"></div>
-        </div>
+        <h1 class="text-center my-4">Lista dei Clienti</h1>
     </div>
     <table class="table table-striped w-75 mx-auto">
         <tr class="text-center">
